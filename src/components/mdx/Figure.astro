@@ -1,0 +1,121 @@
+---
+import Img from '@/components/Img.astro';
+import Caption from './Caption.astro';
+import Ticker from './Ticker.astro';
+
+interface Props {
+  images?: { src: string; alt?: string }[];
+  layout?: 'stack' | 'row' | 'carousel';
+  frame?: 'border' | 'plain';
+  caption?: string;
+}
+const { images = [], layout = 'stack', frame = 'border', caption } = Astro.props;
+const n = Math.max(images.length, 1);
+const sizes =
+  layout === 'row'
+    ? `(max-width: 809.98px) calc((100vw - 32px - ${(n - 1) * 8}px) / ${n}), ${Math.round(650 / n)}px`
+    : layout === 'carousel'
+      ? '(max-width: 809.98px) 358px, 500px'
+      : '(max-width: 809.98px) calc(100vw - 32px), 650px';
+---
+
+<figure class:list={['fig', `l-${layout}`, `f-${frame}`]}>
+  {
+    layout === 'carousel' ? (
+      <Ticker>
+        {images.map((im) => (
+          <div class="slide">
+            <Img src={im.src} alt={im.alt ?? ''} sizes={sizes} maxWidth={500} />
+          </div>
+        ))}
+      </Ticker>
+    ) : (
+      <div class="media">
+        {images.map((im) => (
+          <div class="frame">
+            <Img src={im.src} alt={im.alt ?? ''} sizes={sizes} maxWidth={layout === 'row' ? 360 : 650} />
+          </div>
+        ))}
+      </div>
+    )
+  }
+  <Caption text={caption} />
+</figure>
+
+<style>
+  .fig {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .media {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .l-row .media {
+    flex-direction: row;
+    gap: 10px;
+  }
+  .l-row .frame {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .frame,
+  .slide {
+    --r: 40px;
+    --b: 9px;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--r);
+    background: var(--n-96);
+    transform: translateZ(0);
+  }
+  /* Framer-style inner border drawn on top of the image */
+  .f-border .frame::after,
+  .slide::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: var(--b) solid var(--n-96);
+    pointer-events: none;
+  }
+  .l-row .frame {
+    --r: 20px;
+    --b: 4px;
+  }
+  .frame :global(img),
+  .slide :global(img) {
+    width: 100%;
+    height: auto;
+  }
+  .slide {
+    --r: 24px;
+    --b: 5px;
+    flex: none;
+    width: 500px;
+    height: 331px;
+  }
+  .slide :global(img) {
+    height: 100%;
+    object-fit: cover;
+  }
+  @media (max-width: 809.98px) {
+    .frame {
+      --r: 24px;
+      --b: 5px;
+    }
+    .l-row .media {
+      gap: 8px;
+    }
+    .l-row .frame {
+      --r: 16px;
+      --b: 3px;
+    }
+    .slide {
+      width: 358px;
+      height: 237px;
+    }
+  }
+</style>

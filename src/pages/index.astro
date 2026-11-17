@@ -1,0 +1,318 @@
+---
+import { getEntry } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import Logo from '@/components/Logo.astro';
+import EmailCTA from '@/components/EmailCTA.astro';
+import Gallery from '@/components/Gallery.astro';
+import HomeFooter from '@/components/HomeFooter.astro';
+import { paragraphs, inline } from '@/lib/md';
+
+const home = (await getEntry('home', 'index'))!.data;
+const bio = paragraphs(home.bio);
+const bioMobile = home.bioMobile ? paragraphs(home.bioMobile) : null;
+const footer = {
+  availability: home.availability,
+  prompt: home.prompt,
+  email: home.email,
+  socials: home.socials,
+  copyright: home.copyright,
+};
+---
+
+<Base title={`${home.name} – Product Designer`} preload={['/fonts/inter-display-400-latin.woff2']}>
+  <div class="home">
+    <aside class="panel">
+      <header class="top appear">
+        <a href="/" class="logo-link" aria-label="Home">
+          <Logo class="logo-full" />
+          <span class="lockup"><Logo mark /><span class="wordmark">mico / crvft</span></span>
+        </a>
+        <a href="/case-studies" class="nav-link">Case Studies &amp; Artifacts</a>
+      </header>
+
+      <section class="intro">
+        <div class="name-role appear" style="--appear-delay:.2s; --appear-dur:.8s">
+          <h1 class="name">
+            <span class="full">{home.name} —</span>
+            <span class="nick">{home.nickname}</span>
+            <span class="mobile-name">{home.mobileName}</span>
+          </h1>
+          <p class="role">{home.role}</p>
+        </div>
+        <div class="bio-cta appear" style="--appear-delay:.2s; --appear-dur:.8s">
+          <div class="bio">
+            <div class:list={['bio-text', { 'has-mobile': bioMobile }]}>
+              {bio.map((p) => <p set:html={p} />)}
+            </div>
+            {bioMobile && <div class="bio-text bio-mobile">{bioMobile.map((p) => <p set:html={p} />)}</div>}
+            <p class="note" set:html={inline(home.note)} />
+          </div>
+          <EmailCTA lead={home.ctaLead} link={home.ctaLink} href={`mailto:${home.email}`} />
+        </div>
+      </section>
+
+      <div class="panel-footer appear" style="--appear-delay:1.1s">
+        <HomeFooter variant="panel" {...footer} />
+      </div>
+    </aside>
+
+    <main class="gallery">
+      <h2 class="sr-only">Selected work</h2>
+      <Gallery items={home.gallery} />
+    </main>
+
+    <div class="band-footer">
+      <HomeFooter variant="band" {...footer} />
+    </div>
+  </div>
+</Base>
+
+<style>
+  .home {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  /* ── Left panel ─────────────────────────────────────── */
+  .panel {
+    position: sticky;
+    top: 0;
+    flex: 0 0 439px;
+    height: 100vh;
+    height: 100dvh;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    background: var(--n-98);
+    overflow: clip;
+    z-index: 1;
+  }
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 32px;
+  }
+  .logo-link {
+    display: block;
+  }
+  .lockup {
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+  .wordmark {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--n-10);
+    font-variation-settings: 'wght' 500, 'wdth' 125;
+  }
+  .nav-link {
+    font-size: 14px;
+    line-height: 22.5px;
+    color: var(--n-55);
+    transition: color 0.25s var(--ease-out);
+  }
+  @media (hover: hover) {
+    .nav-link:hover {
+      color: var(--n-10);
+    }
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .name-role {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .name {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 2px;
+    font-weight: 400;
+    font-family: var(--font-serif);
+    font-size: 20px;
+    letter-spacing: -0.15px;
+  }
+  .full {
+    line-height: 20px;
+    color: var(--n-10);
+    font-variation-settings: 'wght' 410, 'wdth' 95;
+  }
+  .nick {
+    font-style: italic;
+    line-height: 16px;
+    color: var(--n-45);
+    font-variation-settings: 'wght' 490, 'wdth' 90;
+  }
+  .mobile-name {
+    display: none;
+  }
+  .role {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 18px;
+    letter-spacing: -0.2px;
+    color: var(--n-45);
+    font-variation-settings: 'wght' 420, 'wdth' 95;
+  }
+  .bio-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .bio {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .bio-text {
+    display: flex;
+    flex-direction: column;
+    gap: 22.5px;
+    color: var(--n-25);
+    text-wrap: pretty;
+  }
+  .bio-mobile {
+    display: none;
+  }
+  .bio-text :global(a) {
+    color: var(--n-25);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, currentColor 55%, transparent);
+    transition:
+      color 0.2s var(--ease-out),
+      text-decoration-color 0.2s var(--ease-out);
+  }
+  @media (hover: hover) {
+    .bio-text :global(a:hover) {
+      color: var(--n-10);
+      text-decoration-color: currentColor;
+    }
+  }
+  .note {
+    font-style: italic;
+    color: var(--n-55);
+    text-wrap: pretty;
+  }
+
+  /* ── Gallery column ─────────────────────────────────── */
+  .panel-footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .gallery {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 32px 16px 0 0;
+  }
+  .band-footer {
+    display: none;
+  }
+
+  /* ── Tablet (810–1199) ──────────────────────────────── */
+  @media (max-width: 1199.98px) {
+    .home {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .panel {
+      position: relative;
+      flex: none;
+      height: auto;
+      min-height: 60vh;
+    }
+    .panel-footer {
+      display: none;
+    }
+    .gallery {
+      padding: 0 16px 32px;
+    }
+    .band-footer {
+      display: block;
+    }
+  }
+
+  /* ── Phone (<810) ───────────────────────────────────── */
+  @media (max-width: 809.98px) {
+    .panel {
+      background: var(--white);
+      padding: 24px 16px 0;
+      gap: 32px;
+    }
+    .top {
+      padding-top: 0;
+      height: 24px;
+    }
+    :global(.logo-full) {
+      display: none;
+    }
+    .lockup {
+      display: flex;
+    }
+    .nav-link {
+      font-size: 13px;
+      line-height: 14px;
+      letter-spacing: -0.05px;
+    }
+    .intro {
+      gap: 20px;
+    }
+    .name-role {
+      gap: 6px;
+    }
+    .full,
+    .nick {
+      display: none;
+    }
+    .mobile-name {
+      display: inline;
+      font-style: italic;
+      line-height: 21px;
+      letter-spacing: -0.24px;
+      color: var(--n-10);
+      font-variation-settings: 'wght' 420, 'wdth' 100;
+    }
+    .role {
+      font-style: italic;
+      color: var(--n-55);
+      font-variation-settings: 'wght' 410, 'wdth' 100;
+    }
+    .bio {
+      gap: 12px;
+    }
+    .bio-text {
+      gap: 20.7px;
+      line-height: 20.7px;
+      letter-spacing: -0.07px;
+      color: var(--n-40);
+    }
+    .bio-text.has-mobile {
+      display: none;
+    }
+    .bio-mobile {
+      display: flex;
+    }
+    .note {
+      font-size: 13px;
+      line-height: 20px;
+      letter-spacing: -0.05px;
+    }
+    .gallery {
+      padding: 0 10px 32px;
+    }
+  }
+</style>

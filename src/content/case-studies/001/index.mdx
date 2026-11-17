@@ -1,0 +1,115 @@
+---
+title: Redesigning Medical Software Used by Healthcare Professionals
+seoTitle: ''
+number: '01'
+order: 1
+date: '2025-07-16'
+draft: false
+cardTitle: Redesigning a Document Management System for a Behavioural Clinic
+shortTitle: Redesigning a Clinic’s Document System
+summary: From document creation to appointment management, this case study breaks down how I redesigned a behavioural clinic’s document management system.
+cover: /src/assets/case-studies/001/cover.webp
+hero: /src/assets/case-studies/001/hero.png
+glance:
+- label: Role
+  value: Sole Product Designer working in collaboration with the developer
+- label: Type
+  value: Concept redesign, unshipped
+- label: Focus
+  value: Redesigning document retrieval, scheduling, and admin/patient workflows for a mental health clinic’s internal platform
+tldr:
+- Synthesised secondhand research (two recorded developer calls with the product owners, plus PRDs) into four structural failure patterns
+- Prototyped natural language search, then replaced it with predictable multi-filter search after developer review showed it was over-engineered for an internal tool
+- Kept the sidebar persistent after learning staff use it as a spatial anchor; cut patient file access from 4 clicks to 2 and replaced silent double-booking with conflict alerts
+toc:
+- label: Overview
+  heading: Overview
+- label: Problem Statement
+  heading: Problem Statement
+- label: Framing the Challenge
+  heading: Framing the Challenge
+- label: Design Ideation
+  heading: Design Ideation
+- label: The Design
+  heading: The Design
+- label: Usability Testing
+  heading: Usability Testing & Refinement
+- label: Results
+  heading: Results
+---
+
+## Overview
+
+I worked with a developer to redesign the internal admin platform of a mental health clinic. Using two recorded calls between the developer and the clinic’s product owners, plus the product requirement documents (PRDs), I audited existing workflows, mapped friction points across staff and patient journeys, restructured the information architecture and delivered high-fidelity prototypes with developer-ready handoff specs.
+
+The research was secondhand, so the real work was synthesis: **turning recorded complaints into structured design problems** that a developer could build solutions for.
+
+My goals going in:
+
+* Reduce the time and cognitive load needed to retrieve patient documents and records.
+* Consolidate high-frequency admin workflows: patient logging, appointment scheduling and document management.
+* Modernise the interface to lower error rates and shorten onboarding for new staff.
+
+<Figure images={[{"src":"/src/assets/case-studies/001/old-ui-dashboard.webp","alt":"Existing clinic software dashboard listing the day's appointments, a calendar and outstanding items"},{"src":"/src/assets/case-studies/001/old-ui-patient-facesheet.webp","alt":"Existing clinic software patient facesheet with medications, problems, vitals and history sections"},{"src":"/src/assets/case-studies/001/old-ui-notes-list.webp","alt":"Existing clinic software Notes list showing therapist progress notes and memos with a Create Note button"}]} layout="carousel" frame="border" caption="SOME SCREENS OF THE CURRENT UI" />
+
+## Problem Statement
+
+The platform combined a lot of complexity with very little structure. Across the two call recordings and developer notes, four failure patterns kept recurring:
+
+* **Rigid search.** Document retrieval required exact, case-sensitive keyword matches, and filters couldn’t be combined. Staff who didn’t remember a precise file name got stuck.
+* **Redundant workflows.** Core tasks (logging a patient, booking an appointment, retrieving a document) involved unnecessary steps and unintuitive screen hierarchies.
+* **Inconsistent patterns.** UI patterns changed from module to module, so new staff couldn’t build a reliable mental model, which stretched onboarding.
+* **Weak hierarchy.** Poor information hierarchy led to missed and duplicated actions, especially in scheduling.
+
+## Framing the Challenge
+
+I went through the recordings and PRDs looking past surface complaints to the workflow problems behind them. The frustrations fell into three clusters: slow, unreliable document retrieval; scheduling errors caused by poor conflict visibility; and inconsistent labelling that made the interface hard to learn.
+
+From this, I defined a primary persona:
+
+* Admin staff (power users): high task frequency, constant switching between modules, and a need for fast retrieval with minimal navigation overhead. For them, **every extra click is a cognitive tax** in an already high-load environment.
+
+<Figure images={[{"src":"/src/assets/case-studies/001/persona-adaeze-nwosu.png","alt":"Persona card for Adaeze Nwosu, Clinical Admin Coordinator, with goals, frustrations, needs and a quote"}]} layout="stack" frame="border" />
+
+## Design Ideation
+
+Before moving to UI, I explored solutions for the two biggest failure points.
+
+1. Document retrieval: keyword-only search was the biggest pain point for admin staff. I explored two directions: a natural language search bar (staff could type “Find Ngozi’s consent form from July”) and a structured multi-filter system (file type, date range, visibility, patient name). \
+   I designed and prototyped natural language search first because it was the more ambitious option. When I reviewed it with the developer, it failed on two fronts: it needed complex backend logic, and staff trust in its results would be fragile. For an internal tool, it was **a low-trust, over-engineered solution**, so I replaced it with multi-filter search: faster to build, predictable, and matched to how staff already think about files. \
+   I then added fuzzy matching, so a partial file name still returns relevant results, and removed case sensitivity, which made search far more forgiving.
+2. Navigation architecture: I first designed a collapsible sidebar to free up space in a data-heavy interface. The developer’s input changed that: **staff use the sidebar as a spatial anchor** when moving between sections, so collapsing it forced them to re-expand and reorient on every switch. I kept it permanently visible and redesigned it with clearer icons, grouped sections and a stronger hierarchy. \
+   I also considered breadcrumbs as a middle ground, but edge cases in the deeper document flows made them unreliable as an anchor.
+
+<Figure images={[{"src":"/src/assets/case-studies/001/figure-search-directions-comparison.png","alt":"Comparison table of two search directions: natural-language search was prototyped and dropped, multi-filter search was kept"}]} layout="stack" frame="border" />
+
+<Figure images={[{"src":"/src/assets/case-studies/001/figure-navigation-bar-before-and-after.jpg","alt":"Previous navigation bar beside the improved version, which groups items into sections and adds an account toggle"}]} layout="stack" frame="border" caption="PREVIOUS & IMPROVED VERSIONS OF THE NAV BAR" />
+
+## The Design
+
+With the structural decisions settled, I built high-fidelity screens for both the staff and patient journeys.
+
+<Figure images={[{"src":"/src/assets/case-studies/001/screen-login.png","alt":"Westgate Medical account login screen"},{"src":"/src/assets/case-studies/001/screen-dashboard.png","alt":"Westgate Medical dashboard with sidebar, quick-action cards, appointments table and recent activities"},{"src":"/src/assets/case-studies/001/screen-appointment-details-modal.png","alt":"Appointment details modal for a patient over a blurred dashboard"},{"src":"/src/assets/case-studies/001/screen-search-results.png","alt":"Search dropdown listing patient and EMR document results for 'Garnacho', with a Filter link"},{"src":"/src/assets/case-studies/001/screen-search-with-filter-applied.png","alt":"Search dropdown with a Reset filter link after filters were applied"},{"src":"/src/assets/case-studies/001/screen-filter-settings.png","alt":"Filter Settings panel with document type, visibility and date range options and an Apply button"},{"src":"/src/assets/case-studies/001/screen-documents-list.png","alt":"Documents list view with patient names, last modified dates and pagination"},{"src":"/src/assets/case-studies/001/screen-patients-grid.png","alt":"Patients grid with avatar placeholders and names, a search field, pagination and the grouped sidebar"},{"src":"/src/assets/case-studies/001/screen-patient-folders.png","alt":"Patient folder view grouping documents into Assessment & Diagnosis, Medication Records, Visual Records and Administrative & Legal"},{"src":"/src/assets/case-studies/001/screen-share-document-modal.png","alt":"'Share document' dialog with private and public visibility options and a field to invite other clinicians"},{"src":"/src/assets/case-studies/001/hero.png","alt":"Full Head Scan record with patient information, an X-ray image viewer and a clinical summary panel"}]} layout="carousel" frame="border" />
+
+## Usability Testing & Refinement
+
+The developer and I tested the redesign against the specific workflow bottlenecks the CEO had flagged. Three refinements came out of those walkthroughs:
+
+* Search results grouped by category: the first layout sorted results by recency, but staff look for a document type (a consent form, a therapy note), so **category grouping became the primary axis, not time**.
+* Keyboard shortcuts for the highest-frequency admin actions: in a tool used 6–8 hours a day, removing hand-to-mouse switches compounds into real time savings.
+* A shorter path to patient files: reaching a specific document took 4 clicks from the dashboard. Surfacing the document library on the patient profile card **cut it to 2**.
+
+## Results
+
+The redesign was validated through developer walkthroughs against the CEO’s documented pain points. The core retrieval and scheduling problems were solved at the structural level, and the developer confirmed the handoff specs were implementation-ready.
+
+Outcomes of the redesign:
+
+* Document retrieval moved from exact-keyword matching to a multi-filter system that works without prior knowledge of file names.
+* **Patient file access went from 4 clicks to 2** from the dashboard.
+* Overlap alerts surface scheduling conflicts before they happen, **eliminating silent double-bookings**.
+* Consistent navigation patterns and a predictable module structure reduce onboarding friction for new staff.
+
+The project wasn’t deployed. What it shows is how I work: extracting structured design problems from qualitative research, making and defending trade-offs under real constraints, and delivering designs, prototypes and specs a developer can build from.
+
+<Figure images={[{"src":"/src/assets/case-studies/001/figure-admin-staff-outcomes.png","alt":"Before and after table showing what changed for admin staff with the redesigned clinic software"}]} layout="stack" frame="border" />

@@ -1,0 +1,59 @@
+---
+import '@/styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  /** Extra fonts to preload for this page (paths under /fonts). */
+  preload?: string[];
+  bodyClass?: string;
+}
+const {
+  title,
+  description = 'Michael Okoye (Mico) is a product designer who turns complex workflows into simple interfaces for SaaS, marketplace and consumer products, on web and mobile.',
+  image = '/og-image.png',
+  preload = [],
+  bodyClass,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const fonts = ['/fonts/geist-latin-wght-normal.woff2', '/fonts/junicode-vf-roman.woff2', '/fonts/junicode-vf-italic.woff2', ...preload];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site)} />
+
+    <link rel="icon" href="/favicon-light.png" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="/favicon-dark.png" media="(prefers-color-scheme: dark)" />
+    <link rel="apple-touch-icon" href="/favicon-light.png" />
+
+    {fonts.map((f) => <link rel="preload" href={f} as="font" type="font/woff2" crossorigin />)}
+
+    <!-- Instant navigation: Chromium prerenders same-site links on hover/press. -->
+    <script type="speculationrules" is:inline>
+      {"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/keystatic*"}}]},"eagerness":"moderate"}]}
+    </script>
+    <slot name="head" />
+  </head>
+  <body class={bodyClass}>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,191 @@
+name: Michael Okoye
+nickname: or just Mico
+mobileName: Mico
+role: Product & interaction designer
+bio: 'I help startups and product teams turn complex workflows into simple interfaces, on mobile and web.
+
+
+  Right now I’m building [Frolickk](/case-studies/005), a personal reading app I designed in Figma and built with Claude Code, testing every iteration on my own phone.
+
+
+  Before that, I designed the teacher side of [GradeX](https://gradexpro.com/), a school management SaaS used by 20+ schools. I was also the founding designer at [Lofai](https://www.crunchbase.com/organization/lofai), where I designed the full MVP of a marketplace connecting customers with independent tailors.'
+bioMobile: 'I help startups and product teams turn complex workflows into simple interfaces, on mobile and web.
+
+
+  Right now I’m building a personal side project: [Frolickk](/case-studies/005), a reading app I designed in Figma and built with Claude Code, testing every iteration on my own phone.
+
+
+  Before that, I designed the teacher side of [GradeX](https://gradexpro.com/), a school management SaaS used by 20+ schools. I was also the founding designer at [Lofai](https://www.crunchbase.com/organization/lofai), where I designed the full MVP of a marketplace connecting customers with independent tailors.'
+note: 'Probably somewhere obsessing over an easing curve, reading a book, or playing a DF: Hotzone round.'
+ctaLead: Currently open for work
+ctaLink: Email me
+email: mico.crvft@gmail.com
+availability: Available for full-time, contract and freelance roles.
+prompt: Say hi! I’d love to hear what you’re building.
+socials:
+- label: Twitter (X)
+  url: https://x.com/crvft_
+- label: Dribbble
+  url: https://dribbble.com/crvft_
+- label: LinkedIn
+  url: https://www.linkedin.com/in/mico-crvft/
+copyright: 2026 — Michael Okoye
+gallery:
+- label: Clinical alerts dashboard on a MacBook
+  kind: video
+  image: /src/assets/home/gallery-video-1-poster.webp
+  video: /videos/home/gallery-video-1.mp4
+  size: small
+  fit: cover
+  show: all
+  mobileOrder: 1
+- label: GradeX dashboard on phone
+  kind: image
+  image: /src/assets/home/gradex-dashboard-on-phone.jpg
+  video: ''
+  size: tall
+  fit: cover
+  show: all
+  mobileOrder: 4
+- label: Attendance alert card
+  kind: image
+  image: /src/assets/home/attendance-alert-card.webp
+  video: ''
+  size: small
+  fit: cover
+  show: all
+  mobileOrder: 8
+- label: Admin overview dashboard
+  kind: image
+  image: /src/assets/home/admin-overview-dashboard.jpg
+  video: ''
+  size: large
+  fit: cover
+  show: all
+  mobileOrder: 2
+- label: Frolickk book cover effect
+  kind: video
+  image: ''
+  video: /videos/home/gallery-video-2.mp4
+  size: large
+  fit: contain
+  show: all
+  mobileOrder: 3
+- label: Filter panel
+  kind: image
+  image: /src/assets/home/filter-panel.jpg
+  video: ''
+  size: large
+  fit: cover
+  show: all
+  mobileOrder: 5
+- label: Prediction platform on a MacBook
+  kind: video
+  image: ''
+  video: /videos/home/gallery-video-3.mp4
+  size: small
+  fit: cover
+  show: all
+  mobileOrder: 6
+- label: Lagos rentals listing on phone
+  kind: image
+  image: /src/assets/home/lagos-rentals-listing-on-phone.webp
+  video: ''
+  size: tall
+  fit: cover
+  show: desktop
+- label: Clinic scan screen
+  kind: image
+  image: /src/assets/home/clinic-scan-screen.jpg
+  video: ''
+  size: small
+  fit: cover
+  show: all
+  mobileOrder: 15
+- label: Lagos rentals listing wide
+  kind: image
+  image: /src/assets/home/lagos-rentals-listing-wide.webp
+  video: ''
+  size: small
+  fit: cover
+  show: mobile
+  mobileOrder: 10
+- label: Listing live activity
+  kind: image
+  image: /src/assets/home/listing-live-activity.webp
+  video: ''
+  size: large
+  fit: cover
+  show: all
+  mobileOrder: 7
+- label: StackForge landing page
+  kind: image
+  image: /src/assets/home/stackforge-landing-page.jpg
+  video: ''
+  size: large
+  fit: cover
+  show: all
+  mobileOrder: 14
+- label: Compliance escalation UI
+  kind: image
+  image: /src/assets/home/compliance-escalation-ui.jpg
+  video: ''
+  size: small
+  fit: cover
+  show: all
+  mobileOrder: 16
+- label: Mobile nav drawer
+  kind: image
+  image: /src/assets/home/mobile-nav-drawer.jpg
+  video: ''
+  size: tall
+  fit: cover
+  show: desktop
+- label: FleetOS integrations
+  kind: image
+  image: /src/assets/home/fleetos-integrations.webp
+  video: ''
+  size: small
+  fit: cover
+  show: all
+  mobileOrder: 11
+- label: StratCore dashboard
+  kind: image
+  image: /src/assets/home/stratcore-dashboard.jpg
+  video: ''
+  size: large
+  fit: cover
+  show: all
+  mobileOrder: 9
+- label: Frolickk appearance sheet
+  kind: image
+  image: /src/assets/home/frolickk-appearance-sheet.jpg
+  video: ''
+  size: tall
+  fit: cover
+  show: all
+  mobileOrder: 13
+- label: OPay transfer screen
+  kind: image
+  image: /src/assets/home/opay-transfer-screen.webp
+  video: ''
+  size: small
+  fit: cover
+  show: all
+  mobileOrder: 18
+- label: StackForge contact form
+  kind: image
+  image: /src/assets/home/stackforge-contact-form.jpg
+  video: ''
+  size: small
+  fit: cover
+  show: all
+  mobileOrder: 17
+- label: Command palette search
+  kind: image
+  image: /src/assets/home/command-palette-search.webp
+  video: ''
+  size: large
+  fit: cover
+  show: all
+  mobileOrder: 12

@@ -1,0 +1,124 @@
+---
+title: Exploring Text-Based Transaction Interfaces
+seoTitle: ''
+number: '02'
+order: 2
+date: '2026-08-10'
+draft: false
+cardTitle: ''
+shortTitle: Exploring Text-Based Money Transfers
+summary: An exploration into reducing friction in mobile money transfers by representing transaction amounts as text, making them easier to read and verify.
+cover: /src/assets/case-studies/004/cover.webp
+hero: /src/assets/case-studies/004/hero.webp
+glance:
+- label: Role
+  value: Solo — independent design exploration
+- label: Type
+  value: Concept exploration
+- label: Focus
+  value: Reducing cognitive load and friction in OPay’s transaction confirmation flow
+tldr:
+- 'Started from a real frustration: too many confirm screens on money transfers lead to blind, autopilot tapping'
+- Cut the flow and tested representing amounts as words instead of digits, backed by existing eye-tracking research on numbers being harder to process than text
+- Ran informal testing with 5 people; a text-only version felt too unfamiliar, so I iterated to a hybrid of text and smaller numbers and added swipe-to-send for more deliberate commitment
+toc:
+- label: Overview
+  heading: Overview
+- label: First Objective
+  heading: First Objective
+- label: Second Objective
+  heading: Second Objective
+- label: Summary
+  heading: Summary
+- label: Citations
+  heading: Citations
+---
+
+## Overview
+
+Sending money can be tedious. You start a transfer and you’re met with **a string of “confirm” screens**: “confirm bank account”, “confirm recipient”, “confirm transfer amount”, “confirm your identity”. When you just want to pay a merchant you’ve bought from and move on, all that friction is frustrating.
+
+I had one of those days. Paying a merchant in my banking app, I hit the usual cascade of confirm screens and, like most people, blindly tapped “Next” to get it over with. Afterwards, I decided to look into how the experience could be better.
+
+I set two goals:
+
+1. Shorten the flow by redesigning every screen involved, optimising for ease and speed.
+2. Find a way to present the amount being sent that’s easier to verify than a string of digits.
+
+<Callout title="Keep in Mind">
+
+For this exploration, I used the OPay app and focused on its transfer flow, since it’s the one I know best.
+
+</Callout>
+
+<Figure images={[{"src":"/src/assets/case-studies/004/figure-current-opay-flow.webp","alt":"OPay's current four-screen transfer flow"}]} layout="stack" frame="border" caption="OPAY’S CURRENT FLOW" />
+
+## First Objective
+
+For the first goal, **I cut the “Confirm Recipient” screen entirely**.
+
+The reasoning: confirm screens exist to slow users down so they actually check the details. But that takes willpower, a limited resource, and the longer the flow, the more of it each transfer uses up. Sometimes the reserve is already empty before the app opens: picture someone who’s had a hectic day at the market and just wants to pay and go home. That’s when people slip into autopilot and tap through without reading.
+
+Shortening the flow makes each step less demanding, so users finish faster and spend less of that reserve.
+
+<Figure images={[{"src":"/src/assets/case-studies/004/figure-redesigned-flow-three-screens.webp","alt":"Three redesigned OPay transfer screens, shortened from four, with annotations"}]} layout="stack" frame="border" />
+
+I also made the user’s current position in the flow bolder and persistent, so they always know where they are, and repositioned key UI elements to match.
+
+<Figure images={[{"src":"/src/assets/case-studies/004/screen-annotated-recipient-step.webp","alt":"Annotated first screen: bolder titles, centred recipient name and a poor-network state"}]} layout="stack" frame="border" />
+
+## Second Objective
+
+For the second goal, I started with research. It turns out digits might not be the best way to show the amount being sent because, according to the research, **the brain finds numbers much harder to read than words**1
+
+<Figure images={[{"src":"/src/assets/case-studies/004/chart-fixations.webp","alt":"Bar chart of fixations: roughly 2.5x for numerals versus 7x for words"}]} layout="stack" frame="border" />
+
+According to the research, we make around **2.5 times more fixations** when reading short numbers than short words, and the gap grows with length: up to 7x for longer numbers.
+
+<Callout title="What a Fixation Is">
+
+A fixation is the short moment when the eyes stop moving so that the brain can process the information it sees. More or longer fixations usually mean that the information the brain is decoding is more complex.
+
+</Callout>
+
+<Figure images={[{"src":"/src/assets/case-studies/004/chart-saccades.webp","alt":"Bar chart of saccades: roughly 3x shorter for numerals, 9x longer for words"}]} layout="stack" frame="border" />
+
+Saccades were measured too: we make **3x more saccades** reading short numbers, and up to 9x more reading long ones, compared with words.
+
+<Callout title="What Are Saccades">
+
+Saccades are rapid jumps our eyes make between points. We do this because unlike words that the brain processes as a whole, numbers are broken up into chunks which the eyes then move through before reaching the end of the number.
+
+</Callout>
+
+Put simply: we break numbers into chunks before we can understand them, and longer numbers mean more chunks. Each jump between chunks is a saccade; each stop to process a chunk is a fixation.
+
+Finally, fixation duration and saccade amplitude were measured: long numbers take about 20% longer to read than similar words, and saccade amplitude drops by 0.83 characters.
+
+Taken together, this suggests **users would likely benefit if confirmation screens used text as the main medium instead of numbers**, but the implementation mattered.
+
+<Figure images={[{"src":"/src/assets/case-studies/004/figure-eye-tracking-research.png","alt":"Stat card 'Numbers vs words: what eye-tracking studies found': 2.5x, 7x, 3–9x and about 20%"}]} layout="stack" frame="border" />
+
+<Figure images={[{"src":"/src/assets/case-studies/004/figure-annotated-finished-flow.webp","alt":"Annotated finished flow with swipe-to-send and no kobo"}]} layout="stack" frame="border" />
+
+My first version was text-only. In informal tests with five people, they said it felt too different: numbers are harder to read, but they’re familiar. **So I iterated to a hybrid**: the amount appears in words, with smaller numbers alongside so they aren’t the main focus.
+
+I also replaced the “Transfer” button with “Swipe to Send”. A tap can become reflexive; a swipe needs a continuous, deliberate gesture, which adds intentional commitment without adding a screen. The swipe doesn’t replace authentication: users still confirm with their PIN or biometrics afterwards.
+
+## Summary
+
+In summary:
+
+* **A shorter flow** – reduces the chance of users slipping into autopilot.
+* **Written amounts** – make the critical information easier to consciously verify.
+* **A swipe-to-send gesture** – requires a more deliberate physical commitment than a tap.
+* **Biometric/PIN** – remains the actual authorisation step.
+
+This was an exploration and wasn’t widely tested, so I can’t claim these ideas would scale to every user or financial product. But based on the research and the prototypes, I believe this approach can reduce cognitive load and make transfers feel more intentional.
+
+<Figure images={[{"src":"/src/assets/case-studies/004/figure-final-flow.webp","alt":"Three screens of the final transfer flow"}]} layout="stack" frame="border" caption="SHOTS OF THE NEW FLOW" />
+
+### Citations
+
+[1] [https://www.sciencedirect.com/science/article/pii/S000169182300118X?via%3Dihub](https://www.sciencedirect.com/science/article/pii/S000169182300118X?via%3Dihub)
+[2] [https://en.wikipedia.org/wiki/Chunking_(psychology)](https://en.wikipedia.org/wiki/Chunking_(psychology))

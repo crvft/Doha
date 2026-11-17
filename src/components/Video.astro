@@ -1,0 +1,50 @@
+---
+/**
+ * Muted, looping, inline video. Never preloads; starts playing only when scrolled
+ * into view and pauses when it leaves (saves battery + bandwidth on phones).
+ */
+import { getImage } from 'astro:assets';
+import { resolveImage, videoUrl } from '@/lib/media';
+
+interface Props {
+  src: string;
+  poster?: string | null;
+  label?: string;
+  class?: string;
+  style?: string;
+}
+const { src, poster, label, class: cls, style } = Astro.props;
+const posterMeta = resolveImage(poster);
+const posterUrl = posterMeta ? (await getImage({ src: posterMeta, width: Math.min(1200, posterMeta.width), format: 'webp', quality: 70 })).src : undefined;
+---
+
+<video
+  class:list={['vid', cls]}
+  style={style}
+  src={videoUrl(src)}
+  poster={posterUrl}
+  muted
+  loop
+  playsinline
+  disablepictureinpicture
+  preload="none"
+  aria-label={label}
+  data-autoplay></video>
+
+<script>
+  // One observer shared by every video on the page.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        const v = e.target as HTMLVideoElement;
+        if (e.isIntersecting && !reduce.matches) {
+          if (v.preload !== 'auto') v.preload = 'auto';
+          v.play().catch(() => {});
+        } else v.pause();
+      }
+    },
+    { rootMargin: '200px 0px' },
+  );
+  document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]').forEach((v) => io.observe(v));
+</script>

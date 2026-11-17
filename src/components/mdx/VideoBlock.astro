@@ -1,0 +1,77 @@
+---
+import Video from '@/components/Video.astro';
+import Caption from './Caption.astro';
+
+interface Props {
+  videos?: { src: string; poster?: string | null }[];
+  layout?: 'stack' | 'row';
+  caption?: string;
+}
+const { videos = [], layout = 'stack', caption } = Astro.props;
+---
+
+<figure class:list={['vfig', `l-${layout}`]}>
+  <div class="media">
+    {
+      videos.map((v) => (
+        <div class="frame">
+          <Video src={v.src} poster={v.poster} label={caption} />
+        </div>
+      ))
+    }
+  </div>
+  <Caption text={caption} />
+</figure>
+
+<style>
+  .vfig {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .media {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .frame {
+    position: relative;
+    height: 430px;
+    border-radius: 40px;
+    overflow: hidden;
+    background: var(--n-96);
+    transform: translateZ(0);
+  }
+  .l-row .media {
+    flex-direction: row;
+    gap: 10px;
+  }
+  .l-row .frame {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 192px;
+    border-radius: 24px;
+  }
+  .frame :global(video) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  @media (max-width: 809.98px) {
+    .frame {
+      height: auto;
+      aspect-ratio: 358 / 250;
+      border-radius: 24px;
+    }
+    .l-row .media {
+      flex-direction: column;
+      align-items: center;
+    }
+    .l-row .frame {
+      flex: none;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+    }
+  }
+</style>

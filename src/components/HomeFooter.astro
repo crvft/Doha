@@ -1,0 +1,186 @@
+---
+/**
+ * Footer for the home page. `variant="panel"` sits at the bottom of the sticky
+ * desktop sidebar; `variant="band"` is the full-width grey band on tablet/phone.
+ */
+import Img from './Img.astro';
+import CopyrightIcon from './CopyrightIcon.astro';
+
+interface Props {
+  variant: 'panel' | 'band';
+  availability: string;
+  prompt: string;
+  email: string;
+  socials: { label: string; url: string }[];
+  copyright: string;
+}
+const { variant, availability, prompt, email, socials, copyright } = Astro.props;
+---
+
+<footer class:list={['foot', variant]}>
+  <div class="content">
+    <div class="avail">
+      <p class="a-text">{availability}</p>
+      <a class="a-prompt" href={`mailto:${email}`}>{prompt}</a>
+    </div>
+    <div class="links-copy">
+      <ul class="socials">
+        {socials.map((s) => (
+          <li>
+            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.label}</a>
+          </li>
+        ))}
+      </ul>
+      <p class="copy"><CopyrightIcon size={variant === 'panel' ? 16 : 12} /><span>{copyright}</span></p>
+    </div>
+  </div>
+  {
+    variant === 'band' && (
+      <div class="mountain" aria-hidden="true">
+        <Img src="/src/assets/home/footer-mountain.png" sizes="(max-width: 1199px) 65vw, 0px" maxWidth={800} />
+      </div>
+    )
+  }
+</footer>
+
+<style>
+  .foot {
+    font-family: var(--font-display);
+  }
+  .content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .avail {
+    display: flex;
+    flex-direction: column;
+  }
+  .a-text {
+    color: var(--n-30);
+    font-weight: 500;
+  }
+  .a-prompt {
+    font-style: italic;
+    color: var(--n-55);
+    font-size: 14px;
+    line-height: 19px;
+    width: fit-content;
+    transition: color 0.2s var(--ease-out);
+  }
+  .links-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .socials {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+  .socials a {
+    color: var(--n-55);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition: color 0.2s var(--ease-out);
+  }
+  .copy {
+    display: flex;
+    align-items: center;
+    color: var(--n-45);
+  }
+  @media (hover: hover) {
+    .socials a:hover,
+    .a-prompt:hover {
+      color: var(--n-10);
+    }
+  }
+
+  /* Desktop sidebar footer */
+  .panel {
+    padding: 0 0 16px 16px;
+  }
+  .panel .content {
+    gap: 20px;
+  }
+  .panel .avail {
+    gap: 4px;
+  }
+  .panel .a-text {
+    font-size: 14px;
+    line-height: 19px;
+  }
+  .panel .socials {
+    gap: 12px;
+    font-size: 14px;
+    line-height: 19px;
+  }
+  .panel .copy {
+    gap: 4px;
+    font-size: 14px;
+    line-height: 19px;
+  }
+
+  /* Tablet / phone band */
+  .band {
+    position: relative;
+    height: 180px;
+    padding: 16px 0 16px 16px;
+    background: var(--n-98);
+    overflow: hidden;
+  }
+  .band .content {
+    height: 100%;
+    max-width: 290px;
+    justify-content: space-between;
+  }
+  .band .avail {
+    gap: 6px;
+  }
+  .band .a-text {
+    font-size: 16px;
+    line-height: 22px;
+  }
+  .band .socials {
+    gap: 8px;
+    font-size: 12px;
+    line-height: 19px;
+  }
+  .band .copy {
+    gap: 2px;
+    font-size: 12px;
+    line-height: 19px;
+  }
+  .mountain {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 65%;
+    aspect-ratio: 2.53;
+    pointer-events: none;
+  }
+  .mountain :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
+  }
+  @media (max-width: 809.98px) {
+    .band {
+      padding-top: 19px;
+      padding-bottom: 0;
+    }
+    .band .content {
+      height: auto;
+      padding-bottom: 16px;
+      gap: 26px;
+    }
+    .mountain {
+      display: none;
+    }
+  }
+</style>

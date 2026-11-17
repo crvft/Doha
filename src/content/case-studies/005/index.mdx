@@ -1,0 +1,171 @@
+---
+title: 'Frolickk: A Case Study on How I Built a Reading App with Claude Code'
+seoTitle: ''
+number: '05'
+order: 5
+date: '2026-10-30'
+draft: false
+cardTitle: ''
+shortTitle: Building Frolickk with Claude Code
+summary: Frolickk is a reading app that I designed in Figma and built with Claude Code. Here I walk through the problems I found while testing it, and the design decisions that fixed them.
+cover: /src/assets/case-studies/005/cover.webp
+hero: /src/assets/case-studies/005/hero.webp
+glance:
+- label: Role
+  value: Solo product designer
+- label: Type
+  value: Personal project
+- label: Built with
+  value: Figma for design, Claude Code for engineering (Kotlin & Jetpack Compose)
+- label: Timeline
+  value: 22 Oct 2026 – present, 20+ versions and test builds
+- label: Status
+  value: Installable Android app in public beta. Not yet on the Play Store
+tldr:
+- I designed a reading app for EPUBs, PDFs and web articles, then built it with Claude Code. I designed every screen and decision; Claude Code wrote the code.
+- I tested every build on my own phone and logged 45+ issues. Some were bugs. Many were design problems that only showed up on a real device.
+- The biggest wins came from turning one-off fixes into app-wide rules for motion, haptics and errors.
+- A final speed and stability pass cut launch database queries from 7 to 3 and made book libraries load about 2.5x faster in benchmark tests.
+download:
+  title: Download Frolickk
+  body: 'Download Frolickk and let me know what you think! A few things to keep in mind:
+
+
+    1. Frolickk is still in beta testing, so you may run into bugs. Please email me or reach out on X if you spot any.
+
+    2. Frolickk isn’t on the Play Store yet, so the download link takes you to the GitHub repo, where you can sideload it.
+
+    3. Frolickk is only available on Android for now (sorry, iOS users).'
+  label: Download
+  url: https://github.com/crvft/Frolickk-updates/releases/latest/download/Frolickk.apk
+toc:
+- label: Overview
+  heading: Overview
+- label: Designing the System
+  heading: Designing the System
+- label: How I Worked
+  heading: How I Worked
+- label: 5 Problems I Encount...
+  heading: 5 Problems Worth Mentioning
+- label: Results
+  heading: Results
+- label: What I Learned
+  heading: What I Learned
+---
+
+## Overview
+
+Reading on my phone was a scattered experience. EPUB books lived in one app, PDFs in another, and articles stayed in browser tabs I hardly ever got back to. Wanting to read a book meant searching a website, downloading a file, then finding that file again in another app. \
+I wanted one calm place for all of it. So I set three goals:
+
+1. One unified library for EPUBs, PDFs and web articles, with shelves that sort themselves.
+2. No dead ends: I wanted to pull in an article with just a link, or search a public library like Project Gutenberg, download a book and start reading, all without ever leaving the app.
+3. A premium feel: a modern design with fluid motion, haptics and considered details.
+
+There was a fourth, personal goal. I’ve designed products that developers built, but I’d never carried my own design all the way to a working app. I wanted to find out **what breaks between a Figma frame and a phone in someone’s hand**.
+
+<Video videos={[{"src":"/videos/case-studies/005/video.mp4"}]} layout="stack" caption="FROM A PASTED LINK OR LIBRARY SEARCH TO READING WITHOUT LEAVING THE APP" />
+
+## Designing the System
+
+I started in Figma with a small design system: Open Runde as the only typeface, a defined colour palette, and **every component designed in its default, pressed, focused, error and disabled states**. That last part paid off later. When a bug turned up in a text field, the fix was usually “use the state I already designed”, not “invent something new”.
+
+Three things gave the app its character: \
+**Glassmorphism.** The nav bar, menus, sheets, and toasts all use a frosted glass effect with blur, refraction, an edge light and soft shadows. It’s the most visible part of the brand, so it had to look right on a real screen, not just in Figma. Apart from being a really cool design style, I also chose it because I believe it’s the most complex style (at least with regard to code) and I wanted to really push Claude to see what it could actually do. \
+**Motion**. Buttons depress slightly when pressed, sheets and menus grow out of the control that opened them, book covers zoom open into the page they lead to and shrink back when you leave. Everything moves on springs, and all of it switches off when someone turns on the “Remove animations” setting on their phone. \
+**Haptics.** I treated touch feedback as an important part of the design, not just a finishing touch. I picked each vibration from a labs section I asked Claude to add to specific test builds, on my own phone, rather than guessing from a spec sheet.
+
+A few signature moments sit on top. Long-press a book and its cover lifts into a holographic card that tilts with your finger. The font size control is a drum dial with a buzz on every step.
+
+## How I Worked
+
+I can’t write Kotlin, so I split the work clearly. **I owned the product**: the designs, the decisions, the testing and the judgement of what “done” should look like. **Claude Code owned the engineering**: turning my Figma files into code, and debugging why something broke once I’d found it. \
+Every build went through the same loop:
+
+1. Design the screen or fix in Figma.
+2. Claude Code turns it into a test version of the app.
+3. Test on my phone to find out what breaks: reading, searching, downloading, going offline on purpose.
+4. Log what’s wrong in plain words, the way a user would say it.
+5. Decide on the fix. If the cause was a code bug, Claude Code fixed it. If the cause was a design decision, I went back to Figma.
+
+<Figure images={[{"src":"/src/assets/case-studies/005/figure-build-loop.png","alt":"Flow diagram showing every build looping back through design or code"}]} layout="stack" frame="border" caption="EVERY ISSUE I FOUND WENT BACK EITHER TO CODE OR TO FIGMA." />
+
+That loop has run over 20 times so far. It has produced **45+ logged issues, 60+ commits and 40+ automated tests** that stop fixed bugs from coming back. \
+Step 5 is where most of my design work actually happened. Over those iterations, I got better at telling a code problem from a design problem.
+
+## 5 Problems Worth Mentioning
+
+Of the 45+ issues, these five changed how I think about design.
+
+<Video videos={[{"src":"/videos/case-studies/005/video-1.mp4"},{"src":"/videos/case-studies/005/video-2.mp4"}]} layout="row" caption="LEFT: BLUR · RIGHT: FADE" />
+
+1. **The blur effect that made the whole app flicker.** \
+   In my design, book text faded softly under the status bar. The first build used a live blur to do it. On my phone, the whole page flickered as I scrolled, and it got worse when the word finder was open. \
+   The cause was technical: the book page is a small built-in browser, and copying it every frame to blur it couldn’t keep up. In a second iteration Claude moved the blur inside the page. That stopped the flicker, but it left a blurred patch that scrolled along with the text. \
+   I stopped trying to get it to work with code. The blur wasn’t what mattered to me; the soft edge effect was. So I went back to Figma and designed a plain white fade that gives the same feeling with nothing to compute. With this, nothing is drawn into the book page at all. Sheets that open over a book use a still snapshot of the page instead of a live blur. \
+   Lesson: when an effect keeps fighting the platform, redesign the intent instead of patching the technique.
+
+<Video videos={[{"src":"/videos/case-studies/005/video-3.mp4"}]} layout="stack" caption="GLASS LAB CONTROLS FOR TUNING THE EFFECT APP-WIDE" />
+
+2. **Glass effects that looked right in Figma but off on my phone.** \
+   The nav bar used my exact Figma values, but on my phone it was far too transparent. Figma doesn’t publish how its Frost setting maps to real blur strength, so the conversion came out roughly half as strong. \
+   Instead of guessing values back and forth, I had a temporary Glass Lab built into the app: live sliders for frost, refraction, depth and light. I tuned the glass on my own screen until it looked right. Doubling Frost from 6 to 12 fixed the nav bar. \
+   The lab also exposed a hidden bug. Glass blurred colours and covers fine, but text behind it stayed perfectly sharp at any setting. The fix applied to every glass surface in the app at once, not just the nav bar. \
+   Lesson: some design decisions can only be made on the real device. When possible, build a tool to make them there.
+
+<Video videos={[{"src":"/videos/case-studies/005/video-4.mp4"}]} layout="stack" caption="TITLE PILL’S MOTION AFTER I ADDED THE RULE" />
+
+3. **Motion that animated from the wrong place.** \
+   I wanted iOS-like motion: things should animate out of whatever you tapped. Once that was applied system-wide, a new problem appeared. Tapping the + at the top of Collections made a sheet animate from the top of the screen and travel all the way to the bottom, which looked strange. \
+   I turned that observation into a rule, which I call the distance rule:
+
+   * Sheets always animate in from the bottom of the screen regardless of where the control is. The only exception to this is the reader’s title pill, which already sits at the bottom of the screen.
+   * Dialogs animate from a nearby option, or simply appear in place.
+   * Screens zoom out of book covers only if the cover is visible on screen. Otherwise they slide in from the left.
+
+   Lesson: a motion idea isn’t complete until you’ve decided where it shouldn’t apply.
+
+<Figure images={[{"src":"/src/assets/case-studies/005/screen-labs-section.png","alt":"Labs section screenshot with Haptics lab, Glass lab, Frolickk version A.3 and the bottom nav"}]} layout="stack" frame="border" caption="SCREENSHOT OF THE LABS SECTION" />
+
+4. **Haptic feedback that was added screen by screen.** \
+   When I asked Claude for a list of every haptic in the app, I noticed certain gaps. Only one error, “Definition not found”, had haptic feedback. Deleting a collection used that error’s haptic pattern by mistake, and other events that needed haptics like deleting a book had none. Also, the chapter-pull buzz was too faint to feel at all. \
+   The real problem was that haptics had been added screen by screen, not by rule. So I set a rule for haptics too and added a labs section to test and pick the best haptic pattern.
+
+   * A double buzz for every error: a failed download, a link that won’t load, a book that can’t open.
+
+   * A single buzz for every destructive action or reset confirmation; this was built into the shared dialog so future dialogs get it automatically.
+
+   Error types with haptic feedback went from 1 to 6. The chapter-pull buzz was too faint to feel, so I switched to a stronger 40ms buzz. Every error message now also says how to recover, not just what went wrong. \
+   Lesson: consistency comes from rules built into shared components.
+
+<Figure images={[{"src":"/src/assets/case-studies/005/screen-storage-before-a-3-5.jpg","alt":"Android storage screen for version A.3.5 showing 1.36 GB in total"},{"src":"/src/assets/case-studies/005/screen-storage-after-a-4-0.jpg","alt":"Android storage screen for version A.4.0 showing 358 MB in total"}]} layout="row" frame="border" caption="BEFORE & AFTER SCREENSHOTS OF THE APP INFORMATION SCREEN" />
+
+5. An app that stored every book twice. \
+   When I checked Frolickk in my phone’s settings, it was taking up 1.3 GB. My library was only about 45 books, and most of them already lived in a folder synced to the app. Frolickk was quietly making its own copy of every book, so each one was stored on my phone twice.
+
+   I redesigned it so books stay in one place: a normal folder the reader owns and can open in their file manager. Frolickk now reads books where they are and keeps only what it needs to be fast, like covers, the search index, and the reader’s highlights and progress. Because each book is recognised by its file rather than its name, renaming or moving a book never loses a highlight. If a file goes missing, the book waits for it instead of deleting the reader’s notes. Deleting a book now warns plainly that the file will leave the phone, not just the app.
+
+   After the one-time move, Frolickk went from 1.3 GB to 360 MB on my phone, about 72% smaller.
+
+**The smaller fixes.** \
+Small fixes also taught me the same thing: Figma and a phone are different places.
+
+* The app icon’s wordmark was unreadable once Android cropped it. I redrew the icon with Android’s safe zone in mind.
+* My phone runs in dark mode, so the status bar icons turned white on Frolickk’s light mode screens and disappeared. They now follow the app’s theme instead of the phone’s.
+* For some reason, typing random letters without a “.com” into the article link field crashed the app. For invalid links, it now shows an error and keeps your text so you can fix it.
+
+## Results
+
+In the final round, I fixed a lag I’d noticed: books sometimes took a moment to open, and my whole library took a moment to appear at launch. With my library at almost 1 GB, I wanted it fixed. The answer was several small inefficiencies adding up, and fixing them made one of the biggest measurable differences of the project.
+
+<Figure images={[{"src":"/src/assets/case-studies/005/figure-what-changed.png","alt":"Before and after benchmark table; storage dropped from 1.3 GB to 360 MB"}]} layout="stack" frame="border" caption="RESULTS BEFORE AND AFTER" />
+
+The benchmark timings were measured on a computer with the app’s own database queries, not on my phone. A phone is slower overall, but the before-and-after ratio should hold. \
+The app-size row matters to me. Glass, springs, dials, floating download pills and a full speed pass together **added just 63 KB to the app** (about 14 MB at the time). Polish doesn’t have to cost the user anything. \
+Where the app stands currently: an installable Android app with over 10,000 lines of code, 40+ automated tests and 60+ commits, running on my phone.
+
+## What I Learned
+
+**A real device is a design tool**: my Figma files were careful, and the phone still disagreed with them on glass strength, icon cropping and status bar colours. I now treat on-device testing as part of designing, not as QA after it. \
+**Rules beat one-off fixes**: my best decisions weren’t single fixes. They were the rules, like the distance rule and the haptics rule, that fixed a whole class of problems at once and keep fixing them as the app grows. \
+**Know which kind of problem you have**: working with Claude Code made engineering fast, which made my judgement the bottleneck. The most valuable skill was telling a code problem from a design problem. The flickering blur was a design problem dressed up as a code problem.

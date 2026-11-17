@@ -1,0 +1,126 @@
+---
+/**
+ * Auto-scrolling, draggable strip (Framer "ticker": 40px/s, slows to 20% on hover).
+ * Content is duplicated once so the loop is seamless. Pauses off-screen and
+ * respects reduced motion (then it becomes a plain horizontal scroller).
+ */
+interface Props { speed?: number; hoverFactor?: number }
+const { speed = 40, hoverFactor = 0.2 } = Astro.props;
+const html = await Astro.slots.render('default');
+---
+
+<div class="ticker" data-ticker data-speed={speed} data-hover={hoverFactor}>
+  <div class="track">
+    <div class="set" set:html={html} />
+    <div class="set" aria-hidden="true" set:html={html} />
+  </div>
+</div>
+
+<style>
+  .ticker {
+    position: relative;
+    overflow: hidden;
+    touch-action: pan-y;
+    cursor: grab;
+  }
+  .ticker.dragging {
+    cursor: grabbing;
+  }
+  .track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+  .set {
+    display: flex;
+    gap: 12px;
+    padding-right: 12px;
+  }
+  .ticker :global(img) {
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker {
+      overflow-x: auto;
+      cursor: auto;
+    }
+    .set[aria-hidden] {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('[data-ticker]').forEach((el) => {
+    if (reduce) return;
+    const track = el.querySelector<HTMLElement>('.track')!;
+    const set = el.querySelector<HTMLElement>('.set')!;
+    const speed = Number(el.dataset.speed) || 40;
+    const hover = Number(el.dataset.hover) || 0.2;
+    let x = 0,
+      rate = 1,
+      target = 1,
+      width = set.offsetWidth,
+      visible = false,
+      last = 0,
+      raf = 0,
+      drag: { id: number; start: number; x0: number; lastX: number; lastT: number; v: number } | null = null,
+      fling = 0;
+
+    const wrap = () => {
+      if (width > 0) x = ((x % width) + width) % width;
+    };
+    const frame = (t: number) => {
+      const dt = Math.min(0.05, (t - (last || t)) / 1000);
+      last = t;
+      rate += (target - rate) * Math.min(1, dt * 6); // ease between full and hover speed
+      if (!drag) {
+        x += (speed * rate + fling) * dt;
+        fling *= Math.pow(0.04, dt); // momentum decays after a drag
+      }
+      wrap();
+      track.style.transform = `translate3d(${-x}px,0,0)`;
+      raf = visible ? requestAnimationFrame(frame) : 0;
+    };
+    const start = () => {
+      if (!raf) {
+        last = 0;
+        raf = requestAnimationFrame(frame);
+      }
+    };
+
+    new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) start();
+    }).observe(el);
+    new ResizeObserver(() => (width = set.offsetWidth)).observe(set);
+
+    el.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && (target = hover));
+    el.addEventListener('pointerleave', () => (target = 1));
+    el.addEventListener('pointerdown', (e) => {
+      drag = { id: e.pointerId, start: e.clientX, x0: x, lastX: e.clientX, lastT: e.timeStamp, v: 0 };
+      fling = 0;
+      el.setPointerCapture(e.pointerId);
+      el.classList.add('dragging');
+    });
+    el.addEventListener('pointermove', (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const dt = Math.max(1, e.timeStamp - drag.lastT);
+      drag.v = ((drag.lastX - e.clientX) / dt) * 1000;
+      drag.lastX = e.clientX;
+      drag.lastT = e.timeStamp;
+      x = drag.x0 + (drag.start - e.clientX);
+    });
+    const end = (e: PointerEvent) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      fling = Math.max(-3000, Math.min(3000, drag.v));
+      drag = null;
+      el.classList.remove('dragging');
+    };
+    el.addEventListener('pointerup', end);
+    el.addEventListener('pointercancel', end);
+  });
+</script>

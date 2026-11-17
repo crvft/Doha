@@ -1,0 +1,120 @@
+---
+import Img from './Img.astro';
+import Video from './Video.astro';
+
+type Item = {
+  label: string;
+  kind: 'image' | 'video';
+  image: string;
+  video: string;
+  size: 'small' | 'tall' | 'large';
+  fit: 'cover' | 'contain';
+  show: 'all' | 'desktop' | 'mobile';
+  mobileOrder?: number | null;
+};
+interface Props { items: Item[] }
+const { items } = Astro.props;
+
+// Rendered widths: phone = full width; tablet/desktop = half (or full for "large").
+const sizes = {
+  half: '(max-width: 809.98px) calc(100vw - 20px), (max-width: 1199.98px) calc(50vw - 22px), calc(50vw - 234px)',
+  full: '(max-width: 809.98px) calc(100vw - 20px), (max-width: 1199.98px) calc(100vw - 32px), calc(100vw - 471px)',
+};
+---
+
+<div class="gallery-wrap appear" style="--appear-delay:1.3s">
+  <div class="grid">
+    {
+      items.map((item, i) => (
+        <figure
+          class:list={['cell', item.size, `show-${item.show}`, `fit-${item.fit}`, item.kind]}
+          style={`--m-order:${item.mobileOrder ?? i}`}
+        >
+          {item.kind === 'video' && item.video ? (
+            <Video src={item.video} poster={item.image} label={item.label} />
+          ) : (
+            <Img
+              src={item.image}
+              alt={item.label}
+              sizes={item.size === 'large' ? sizes.full : sizes.half}
+              maxWidth={item.size === 'large' ? 1000 : 500}
+              priority={i < 2}
+            />
+          )}
+        </figure>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .gallery-wrap {
+    container-type: inline-size;
+  }
+  .grid {
+    --gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: calc((100cqw - var(--gap)) / 2 / 1.41);
+    gap: var(--gap);
+  }
+  .cell {
+    position: relative;
+    min-width: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--n-96);
+    transform: translateZ(0); /* own layer: clean rounded clipping while videos play */
+  }
+  .cell.image {
+    box-shadow: inset 0 0 0 1px var(--n-96);
+  }
+  .cell.tall {
+    grid-row: span 2;
+  }
+  .cell.large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .cell :global(img),
+  .cell :global(video) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+  .cell.image :global(img) {
+    /* keep the 1px hairline border visible on top of the photo */
+    z-index: -1;
+  }
+  .fit-contain :global(video),
+  .fit-contain :global(img) {
+    object-fit: contain;
+  }
+  .show-mobile {
+    display: none;
+  }
+
+  @media (max-width: 809.98px) {
+    .grid {
+      --gap: 8px;
+      grid-template-columns: minmax(0, 1fr);
+      grid-auto-rows: calc(100cqw / 1.41);
+    }
+    .cell {
+      order: var(--m-order);
+    }
+    .cell.large {
+      grid-column: auto;
+      grid-row: auto;
+    }
+    .show-mobile {
+      display: block;
+    }
+    .show-desktop {
+      display: none;
+    }
+  }
+</style>

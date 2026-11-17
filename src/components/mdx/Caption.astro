@@ -1,0 +1,22 @@
+---
+interface Props { text?: string | null }
+const { text } = Astro.props;
+---
+{text && <figcaption class="cap">{text}</figcaption>}
+<style>
+  .cap {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 12px;
+    color: var(--n-60);
+    text-transform: uppercase;
+    text-align: center;
+    text-wrap: balance;
+    padding: 0 16px;
+  }
+  @media (max-width: 809.98px) {
+    .cap {
+      line-height: 16px;
+    }
+  }
+</style>

@@ -1,0 +1,124 @@
+---
+title: 'GradeX: A Centralised School Management SaaS'
+seoTitle: ''
+number: '04'
+order: 4
+date: '2025-11-10'
+draft: false
+cardTitle: Designing the Teacher Experience for a School Management SaaS
+shortTitle: Designing GradeX for Teachers
+summary: GradeX is a SaaS platform built to simplify and centralise school operations. Here I walk through how I designed the module teachers use to run their classes.
+cover: /src/assets/case-studies/002/cover.png
+hero: /src/assets/case-studies/002/hero.png
+glance:
+- label: Role
+  value: Product Designer — Teacher Module
+- label: Team
+  value: 3 designers (1 lead, 2 module owners including myself)
+- label: Timeline
+  value: 6-month production cycle
+- label: Status
+  value: Shipped - [gradexpro.com](https://gradexpro.com)
+tldr:
+- 'Owned the teacher module of a school platform built from zero: 50+ screens across two teacher roles, now live in 20+ schools'
+- Wrote the test tasks and ran my own moderated sessions with 12 teachers (separate from the full-team testing across 20+ schools); core teacher workflows reached a ~95% task completion rate
+- Fixed table fatigue in long sessions with alternating rows, more spacing and a Quick Actions panel that cut the five most frequent tasks from 3 clicks to 1
+toc:
+- label: Overview
+  heading: Overview
+- label: The Brief & Research
+  heading: The Brief & Research
+- label: Framing the Problem
+  heading: Framing the Problem
+- label: Design Approach
+  heading: Design Approach
+- label: The Design
+  heading: The Design
+- label: Usability Testing
+  heading: Usability Testing & Refinement
+- label: Results & Impact
+  heading: Results & Impact
+---
+
+## Overview
+
+GradeX is a SaaS platform that centralises school operations for teachers, students, parents and administrators: attendance, grading, communication, inventory requests and staff workflows.
+
+I owned the teacher-facing experience: the dashboards, tools and flows teachers use to manage classes, create and grade assessments, and communicate. **The platform was built from zero**, with no existing UI, design system or visual foundation. I worked alongside a lead designer and one other module owner, and we aligned through weekly syncs so the teacher, admin and parent experiences felt like one product.
+
+This case study covers how I designed for dense institutional data while keeping the product usable for teachers with no technical background, across 50+ screens, two teacher roles and a six-month production cycle.
+
+## The Brief & Research
+
+The project started with a dense PRD from the product owner, covering multiple dashboards, digital grading, lesson management, inventory requests and leave applications.
+
+To ground the work, we ran a competitive analysis of Schoology, Alma and Edmodo. The same issues kept appearing: cluttered dashboards, weak navigation, and **interfaces that assumed too much technical literacy** from users who are teachers first.
+
+Combining those insights with the stakeholder documentation, I defined two personas for the teacher side:
+
+* Main teachers: full access to dashboards, grading tools, analytics and administrative features.
+* Substitute teachers: a reduced experience focused on attendance and lesson schedules.
+
+That set the central constraint: the platform had to be fully capable across its feature set without ever becoming a burden for **someone whose actual job was teaching, not navigating software**.
+
+<Figure images={[{"src":"/src/assets/case-studies/002/persona-1-ngozi-adeyemi.webp","alt":"Persona 1: Ngozi Adeyemi, Senior Secondary Biology teacher, with goals, frustrations, needs, a quote and primary GradeX tasks"},{"src":"/src/assets/case-studies/002/persona-2-tunde-bakare.webp","alt":"Persona 2: Tunde Bakare, relief teacher, with goals, frustrations, needs, a quote and primary GradeX tasks"}]} layout="row" frame="border" />
+
+## Framing the Problem
+
+**The core issue with designing such a platform was balance. The product owner wanted depth, data density and broad feature coverage; teachers needed clarity, speed and as little cognitive load as possible. My job was to serve both.**
+
+I framed the work around four questions:
+
+1. Dashboard density: how do you show a lot of information without overwhelming someone who’s already context-switching between thirty students?
+2. Information hierarchy: what does a teacher need to see immediately, and what can sit one level deeper?
+3. Functional parity: how do you keep flows and navigation consistent across roles with different permissions, without either role feeling like a degraded version of the other?
+4. Scalability: how do you make every layout decision hold across desktop, tablet and mobile?
+
+## Design Approach
+
+I structured ideation around three pillars, each aimed at a failure mode from the competitive analysis:
+
+1. Information architecture: the teacher module alone covered 50+ unique screens. I grouped related tasks to cut redundancy and **applied progressive disclosure throughout**: dashboards surface attendance, active lessons and performance trends at a glance, with deeper analytics one click away. Dashboard cards work as quick-view summaries, so routine checks never require a full detail view.
+2. Intentional UX writing: most teachers had no technical background, so every label, prompt, error state and microcopy string was written (sometimes with help from AI models) **to guide rather than instruct**, in plain language. Error states tell users what happened and what to do next, not just that something went wrong.
+3. Cross-module consistency: different designers owned different roles, but a teacher moving into a shared flow should never land somewhere that feels like a different product. \
+   We built a lightweight internal design system covering layout grids, spacing and interaction logic, and used the weekly syncs to catch divergence early. The result was a platform where every section behaved like part of the same product family, whoever designed it.
+
+<Figure images={[{"src":"/src/assets/case-studies/002/figure-design-pillars.png","alt":"Card summarising the three design pillars behind the GradeX teacher module"}]} layout="stack" frame="border" />
+
+## The Design
+
+With the approach settled, I built high-fidelity prototypes for the full teacher experience: 50+ screens across both teacher roles. The core areas:
+
+* Home dashboard: today’s attendance, active lessons and student analytics in one view, structured to **answer a teacher’s first three questions of the day without any navigation**.
+* Class management: student lists, grading tools and performance insights in one consolidated view, reducing context switches between related tasks.
+* Assignments and exams: setup, submission tracking and review, with clear state indicators so teachers always know what needs action.
+* Inventory requests: a streamlined supply request, two steps from dashboard to submission.
+* Leave applications: a request and approval flow built for infrequent use, so it had to be self-explanatory on first contact.
+
+<Figure images={[{"src":"/src/assets/case-studies/002/screen-home-dashboard.webp","alt":"GradeX teacher home dashboard showing curriculum completion, student attendance and term progress"},{"src":"/src/assets/case-studies/002/screen-lessons.webp","alt":"Lessons screen with an upload lesson option and today's lesson cards"},{"src":"/src/assets/case-studies/002/screen-pupil-analytics.webp","alt":"Pupils analytics screen with a cumulative performance line chart and an All Students table"},{"src":"/src/assets/case-studies/002/screen-pupil-assessment-radar.webp","alt":"Pupil psycho-motor assessment radar chart with a key"},{"src":"/src/assets/case-studies/002/screen-assessments-list.webp","alt":"Assessments list showing the Assignments tab, a Create assignments card and all assignments"},{"src":"/src/assets/case-studies/002/screen-create-exam.webp","alt":"Create exams screen with a dynamic question type"},{"src":"/src/assets/case-studies/002/screen-student-assignment.webp","alt":"Student assignment view showing the questions and a response box"},{"src":"/src/assets/case-studies/002/screen-create-assignment.webp","alt":"Create Assignments form with multiple-choice questions"},{"src":"/src/assets/case-studies/002/screen-exam-analytics.webp","alt":"Exam analytics screen showing a class average of 82 and cumulative class average bars"},{"src":"/src/assets/case-studies/002/screen-attendance.webp","alt":"Attendance screen showing a pupil marked absent with notice and attendance records"},{"src":"/src/assets/case-studies/002/screen-inventory-request.webp","alt":"Inventory screen with a 'Request a new item' modal"}]} layout="carousel" frame="border" />
+
+## Usability Testing & Refinement
+
+Once the teacher designs were complete, the full team ran remote moderated usability tests with teachers, substitute teachers, students, parents and administrators across 20+ schools. Tasks mirrored real workflows: marking attendance, submitting assignments, approving leave, managing supplies and tracking lessons.
+
+The response was strong: teachers found the dashboards clear and easy to navigate. One issue came up consistently: **fatigue when scanning dense data tables** during long sessions. Three targeted fixes addressed it:
+
+* Alternating row colours for visual separation without adding structural weight.
+* More vertical spacing to relieve the compressed feel of high-density views.
+* A Quick Actions panel on the dashboard that cut the five most frequent teacher tasks from 3 clicks to 1.
+
+These fixes went into the design system and were implemented with the developers to keep handoff accurate.
+
+<Figure images={[{"src":"/src/assets/case-studies/002/figure-testing-finding-and-fixes.png","alt":"Usability testing card: table fatigue led to alternating rows, more spacing and a Quick Actions panel that cut the top five tasks from three clicks to one"}]} layout="stack" frame="border" />
+
+<Figure images={[{"src":"/src/assets/case-studies/002/figure-table-before.webp","alt":"Previous attendance records table in GradeX settings, before the redesign"},{"src":"/src/assets/case-studies/002/figure-table-after.webp","alt":"Improved attendance records table with alternating row colours and more vertical spacing"}]} layout="row" frame="border" />
+
+## Results & Impact
+
+<Figure images={[{"src":"/src/assets/case-studies/002/stats-results-and-impact.webp","alt":"Four stat tiles: 6 months from brief to launch, 20+ schools in the pilot cohort, 95% approval in usability testing, 50+ screens designed for the teacher module"}]} layout="stack" frame="border" />
+
+GradeX finished its six-month development cycle and launched. In the separate moderated sessions I ran with 12 teachers from prospective schools that had shown interest in GradeX (recruited by the product owner), **core teacher workflows reached a ~95% task completion rate**. Across the wider pilot cohort, teachers found the dashboards clear and intuitive.
+
+The three table refinements were validated in follow-up test rounds before handoff, confirming they solved the fatigue issue without adding navigation complexity.
+
+The teacher experience **shipped production-ready**, with a complete developer handoff file covering component specs, interaction states and responsive behaviour.

@@ -1,0 +1,157 @@
+---
+title: How I Made House Hunting in Lagos More Convenient & Cheaper
+seoTitle: ''
+number: '03'
+order: 3
+date: '2026-07-09'
+draft: false
+cardTitle: ''
+shortTitle: Making House Hunting in Lagos Cheaper
+summary: A case study on how I designed an app to tackle the exorbitant fees Lagos house hunters often pay agents.
+cover: /src/assets/case-studies/003/cover.webp
+hero: /src/assets/case-studies/003/hero.webp
+glance:
+- label: Role
+  value: Solo — independent design exploration
+- label: Type
+  value: Concept case study, unshipped
+- label: Focus
+  value: Redesigning trust and accountability into Lagos’s informal rental agent market
+tldr:
+- 'Started with landlords listing directly, then dropped it: the reputation system attached to the wrong stakeholder and produced dormant profiles'
+- 'Rebuilt around agents as the persistent, rateable party, which created a new problem: duplicate listings across multiple agents'
+- Solved duplication by anchoring listings to the landlord identity, then added a two-tier badge system for accountability and discarded a leaderboard model to avoid rewarding speed over service
+toc:
+- label: Overview
+  heading: Overview
+- label: Research
+  heading: Research
+- label: Initial Hypothesis
+  heading: Initial Hypothesis & Stakeholder Analysis
+- label: Listing Mechanics
+  heading: Listing Mechanics & Accountability Design
+- label: Platform Expansion
+  heading: Where This Could Go Next
+- label: Closing Thoughts
+  heading: Closing Thoughts
+---
+
+## Overview
+
+**“Lagos State’s housing agents are scammers.”**
+
+Whether or not it’s true, many Lagos house hunters believe it. Stories of inflated rents, excessive finder’s fees and misleading listings are common enough that **distrust now shapes the entire rental experience**.
+
+The problem isn’t new. But when I saw a post on X asking why techies couldn’t fix it, I decided to take a stab at it. This case study walks through:
+
+1. Research
+2. Initial hypothesis and stakeholder analysis
+3. Listing mechanics and accountability design
+4. Where this could go next
+
+## Research
+
+First, I needed to understand how house hunting actually works. It turns out the whole system is informal.
+
+A hunter (short for house hunter) who is leaving their apartment tells an agent what they want: location, number of rooms, and amenities like steady electricity and running water. The agent shortlists places that fit the brief and budget and arranges tours. If the hunter likes one, they negotiate with the landlord, and once terms are agreed, the hunter pays the rent plus the agent’s finder’s fee.
+
+That’s the best case, and roughly how it works in most states. Lagos is different.
+
+Demand is extremely high, especially in prime areas. Good apartments are scarce and expensive, information is fragmented, and tenants have little visibility into alternatives. That creates a significant information asymmetry: agents know more about pricing, availability and competing demand than either landlords or tenants.
+
+Unless your family owns property in Lagos or you have the right connection, there’s no avoiding agents and their fees. They do the legwork, and they know exactly where to look.
+
+So the problem wasn’t simply bad actors or high prices; **it was an information problem**. The market rewards whoever holds the information, and agents use that leverage against house hunters.
+
+<Figure images={[{"src":"/src/assets/case-studies/003/figure-rental-flow-today.png","alt":"Five-step flow of how renting works in Lagos today: the hunter briefs an agent, the agent shortlists, tours, negotiates, and the hunter pays rent plus a finder's fee"}]} layout="stack" frame="border" />
+
+## Initial Hypothesis & Stakeholder Analysis
+
+My first assumption was simple: cut out the agents and connect landlords directly with tenants.
+
+Research made it clear this would likely fail. Agents weren’t just extracting value; they were doing work that neither landlords nor tenants wanted to do themselves.
+
+**They were information brokers**: they found vacancies that would otherwise be hard to discover, coordinated inspections and connected both sides of the market.
+
+So the answer wasn’t removing the intermediary. It was finding a way to **make the intermediary accountable and transparent**.
+
+## Listing Mechanics & Accountability Design
+
+So how do I make agents accountable without destroying the market’s discovery mechanism?
+
+Incentives. I needed to **make good behaviour profitable and bad behaviour expensive**, because today the system rewards:
+
+1. Information hoarding
+2. Inflated fees
+3. Opaque pricing
+4. Reputation-free transactions
+
+To a first-time tenant, a good agent and a bad one look the same. The listing model went through three versions before it could change that:
+
+1. Landlords list, agents apply. Stress-testing exposed two problems. It added work for the stakeholder with the weakest incentive to join: landlords would have to photograph apartments and log amenities, which they don’t do today. Worse, it attached reputation to the wrong party. Landlords only use the platform when a unit is vacant, then go dormant for years, so meaningful reputation signals would never build up, while agents handle hundreds or thousands of transactions in the same period.
+2. Agents list and get rated. So I flipped it: **agents became the persistent profiles, and the ones that could be rated**. Landlords no longer had extra work, because agents already photograph and document apartments before listing them. But a new problem emerged: duplicate listings. Several agents could upload the same property, so one search might return multiple versions of the same apartment with different photos and identical details, cluttering results and making genuine options harder to compare.
+3. One listing per property, anchored to the landlord. Agents attach the landlord’s profile to each listing, and that profile becomes the common anchor. Even if 20 agents list the same property, as long as they share the same landlord, **only one copy of the listing appears in search**. When a hunter opens it, they see every agent attached to it and each agent’s fee.
+
+<Figure images={[{"src":"/src/assets/case-studies/003/figure-listing-models-compared.png","alt":"Table comparing three listing models tested in turn: landlords list, agents list, and landlord-anchored, marked dropped, refined or chosen"}]} layout="stack" frame="border" />
+
+<Figure images={[{"src":"/src/assets/case-studies/003/screen-listing-detail.webp","alt":"Phone screen of a 3 Bedroom Flat Apartment listing"}]} layout="stack" frame="border" caption="DUPLICATE LISTINGS CONSOLIDATED INTO ONE WITH THE LANDLORD AS THE ANCHOR" />
+
+This model also gives landlords direct control over who represents their property. I added a Requests section to the landlord side: before an agent’s listing goes live, the agent must request to represent the property, and the landlord approves or denies it.
+
+Together, these mechanics laid the foundation for a reputation-driven marketplace, where trust accumulates around agents over time.
+
+<Figure images={[{"src":"/src/assets/case-studies/003/screen-agent-requests.webp","alt":"Your Listing requests screen with a new agent application and Approve, View Profile and Decline actions"}]} layout="stack" frame="border" caption="LANDLORDS APPROVE EVERY AGENT BEFORE A LISTING GOES LIVE" />
+
+To build that trust, I also designed badges for agents, because a star rating alone wasn’t enough. To a first-time hunter, “4.6 stars” says nothing about what’s being measured, or whether it was earned through real performance or padded by friendly early reviews.
+
+The problem wasn’t displaying trust. It was **making trust legible at a glance**, so a hunter could look at a profile for two seconds and get an accurate read on whether an agent is reliable.
+
+<Figure images={[{"src":"/src/assets/case-studies/003/screen-agent-badges.webp","alt":"Agent badges: Signature Agent, Faasst Responder, a top earner badge and ₦5M+ GANG, with one locked"}]} layout="stack" frame="border" caption="BADGES SIGNAL PROVEN RELIABILITY" />
+
+<Callout title="Asset Attribution">
+
+The badge illustrations shown in this concept are adapted from artwork by [Jong](https://www.jongmin.net/). I have modified them for this exploration. Full credit belongs to the original creator.
+
+</Callout>
+
+…That’s what the badge system does.
+
+Instead of asking hunters to interpret one aggregate score, I broke trust down into the specific behaviours that matter to them and made each one a visible, earned badge.
+
+There are two tiers. Individual badges are earned by completing specific tasks, and unlocking a set cluster of them is one of the prerequisites for the second tier: the Signature Agent badge.
+
+<Figure images={[{"src":"/src/assets/case-studies/003/screen-agent-profile-actions.webp","alt":"Lower half of an agent profile with badges, Add to favourites, Block and Report options, and a Message button"}]} layout="stack" frame="border" caption="PERFORMANCE IS VISIBLE BEFORE FIRST CONTACT" />
+
+<Figure images={[{"src":"/src/assets/case-studies/003/screen-agent-profile-header.webp","alt":"Agent profile header for a Signature Agent with a 4.5 rating"}]} layout="stack" frame="border" caption="A VISUAL SHORTCUT TO PROVEN CREDIBILITY" />
+
+The Signature Agent badge is the highest tier. It only unlocks for agents who combine top ratings, fast response times and a specific set of individual badges.
+
+It’s the platform’s strongest trust signal, so I made it deliberately hard to earn and placed it prominently. A hunter who sees it knows the platform has already done most of the verification: this agent has been tested across volume, time and consistency, and passed.
+
+The badges also work as an incentive structure. Because they’re visible and aspirational, they give agents something to work toward beyond the next fee. An agent chasing Signature status has a direct reason to respond faster and perform consistently, so **accountability comes from agents competing for status**, not just from punitive reviews.
+
+I also explored a more aggressive gamification layer: a weekly leaderboard ranking agents by transaction volume. I cut it, because it would push agents to close as many deals as fast as possible, the opposite of the careful, consistent service the badges are meant to reward.
+
+## Where This Could Go Next
+
+The marketplace model isn’t limited to residential rentals. At its core, the platform **establishes trust between three parties**: property owners, intermediaries, and buyers or renters. The same reputation, listing and discovery systems can extend to adjacent markets where agent accountability matters just as much.
+
+<Figure images={[{"src":"/src/assets/case-studies/003/figure-marketplace-framework.webp","alt":"Core marketplace framework branching out to residential, shops, land, offices, warehouses, short-term stays and event venues"}]} layout="stack" frame="border" caption="THE SAME MARKETPLACE FRAMEWORK CAN SUPPORT MULTIPLE REAL ESTATE VERTICALS" />
+
+Rather than building a separate product for each category, one platform can support apartments, commercial spaces, land and other real estate verticals, while agents build a single reputation across all of them.
+
+## Closing Thoughts
+
+The Lagos house hunting problem isn’t just about high fees; **it’s a trust problem built on scarcity, fragmented information and weak accountability**.
+
+This case study was never about pretending agents don’t matter. They’re part of how the market discovers housing, and removing them would solve nothing.
+
+Instead, the product makes the existing system harder to exploit and easier to trust. By moving visibility, reputation and verification onto the people who move through the market every day, it turns trust into something that can be earned, measured and used. Bad behaviour gets more expensive, good behaviour gets rewarded, and the house hunter knows who they’re dealing with before wasting time or money.
+
+At its core, this is a marketplace design problem, but more importantly, **it is an incentive design problem**. If the system rewards opacity, opacity wins. If it rewards accountability, consistency and verified performance, the market starts to behave differently.
+
+<Figure images={[{"src":"/src/assets/case-studies/003/screen-explore-messages-listing.webp","alt":"Three phone screens: Explore Listings, Messages and a listing detail"}]} layout="stack" frame="border" />
+
+<Figure images={[{"src":"/src/assets/case-studies/003/screen-chat-profile-my-listing.webp","alt":"Three phone screens: a chat with an agent, an agent profile and a Your Listing overview"}]} layout="stack" frame="border" />
+
+<Figure images={[{"src":"/src/assets/case-studies/003/screen-requests-activity-performance.webp","alt":"Three phone screens: listing Requests, Live Activity and Performance"}]} layout="stack" frame="border" caption="UI DESIGNS" />
