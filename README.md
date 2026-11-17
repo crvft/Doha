@@ -13,6 +13,7 @@ My portfolio, rebuilt from Framer as a fast static site, with an admin panel for
 | Video | Muted inline `<video>` | Only plays while on screen and never preloads. |
 | Navigation | Speculation Rules and View Transitions | Pages are prerendered on hover, with a smooth cross-fade between them. No JS router. |
 | Admin | [Keystatic](https://keystatic.com) at `/keystatic` | Visual editor with drag-and-drop. Content is stored as files in this repo, so there's no database. |
+| Analytics | Vercel Web Analytics + Speed Insights | Visitor stats and real-user Core Web Vitals, without cookies. About 2.5 KB each, loaded after the page. |
 | Hosting | Vercel | Static pages on the CDN. Only the admin runs as a serverless function. |
 
 JavaScript shipped to visitors: about 1 KB for video autoplay, plus about 2 KB on pages with an image ticker.
@@ -78,6 +79,8 @@ npm run preview   # preview the build
 ```
 
 ## Notes
+
+- **Analytics** — turn on *Analytics* and *Speed Insights* in the Vercel project (Project → Analytics / Speed Insights → Enable). The scripts are already in `src/layouts/Base.astro` and only report on Vercel deployments.
 
 - **Fonts**: Junicode VF, Geist, Inter Display and Berkeley Mono are self-hosted in `public/fonts`. Junicode is subset to Latin, which cuts it from 1.2 MB to about 130 KB.
 - **Berkeley Mono licence**: the font is the **trial** version. Buy a licence, or swap it in `src/styles/global.css`, before using a custom domain.

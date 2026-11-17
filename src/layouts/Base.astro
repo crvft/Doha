@@ -1,5 +1,7 @@
 ---
 import '@/styles/global.css';
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 
 interface Props {
   title: string;
@@ -52,6 +54,9 @@ const fonts = ['/fonts/geist-latin-wght-normal.woff2', '/fonts/junicode-vf-roman
       {"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/keystatic*"}}]},"eagerness":"moderate"}]}
     </script>
     <slot name="head" />
+    <!-- Vercel Web Analytics + Speed Insights (tiny, deferred; only report on Vercel deployments) -->
+    <Analytics />
+    <SpeedInsights />
   </head>
   <body class={bodyClass}>
     <slot />
